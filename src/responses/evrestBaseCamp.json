@@ -1,0 +1,38 @@
+{
+    "description": "Here are some esseitial items you may need:",
+    "longDescription": "string",
+    "items": [
+        {
+            "name": "Trekking pants",
+            "description": ""
+        },
+        {
+            "name": "Sunglasses",
+            "description": ""
+        },
+        {
+            "name": "Gaiters",
+            "description": ""
+        },
+        {
+            "name": "Trekking poles",
+            "description": ""
+        },
+        {
+            "name": "Sunscreen",
+            "description": ""
+        },
+        {
+            "name": "Rucksack",
+            "description": ""
+        },
+        {
+            "name": "First aid kit",
+            "description": ""
+        },
+        {
+            "name": "Snowshoes",
+            "description": ""
+        }
+    ]
+}
