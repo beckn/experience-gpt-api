@@ -1,0 +1,216 @@
+openapi: 3.0.0
+info:
+  version: 0.0.2
+  title: Experience GPT API
+  description: API to manage policy flow.
+paths:
+  /v1/search:
+    post:
+      tags:
+        - Experience AI
+      summary: Search for available options
+      requestBody:
+        description: Search context
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SearchContext"
+            examples:
+              Search for Himalaya trek items:
+                value:
+                  context:
+                    action: search
+                    domain: mobility
+                  message:
+                    searchQuery: Himalaya trek
+              Search for Everest base camp items:
+                value:
+                  context:
+                    action: search
+                    domain: mobility
+                  message:
+                    searchQuery: Everest base camp
+              Search for Manali trip items:
+                value:
+                  context:
+                    action: search
+                    domain: mobility
+                    country: IND
+                    city: Manali
+                  message:
+                    searchQuery: Manali Trip
+
+      responses:
+        "200":
+          description: Response generated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SearchResponse"
+              examples:
+                Search for Himalaya trek:
+                  value:
+                    description: "If you're planning a trek in the Himalayas, it's important to make sure you have all the necessary gear and equipment to ensure your safety and comfort during the trip. Here are some things you may want to consider buying:"
+                    longDescription: string
+                    items:
+                      - name: Trekking pants
+                        description: A sturdy pair of trekking boots is a must-have for any Himalayan trek. Look for boots with good ankle support and a solid sole to provide traction on rocky and uneven terrain.
+                      - name: Warm clothing
+                        description: The Himalayas can get very cold, especially at high altitudes. Make sure to bring warm clothing, such as thermal underwear, a down jacket, and a hat and gloves.
+                      - name: Sleeping bag
+                        description: A good quality sleeping bag is essential for a Himalayan trek. Look for a bag that can keep you warm in sub-zero temperatures.
+                      - name: Backpack
+                        description: You'll need a backpack to carry all your gear and supplies during the trek. Look for a pack with good support and ventilation to prevent back strain and sweat buildup.
+                      - name: Water bottles and water purification tablets
+                        description: " It's important to stay hydrated during your trek, so bring enough water bottles and water purification tablets to last the entire trip."
+                      - name: Trekking poles
+                        description: Trekking poles can help you maintain balance and reduce stress on your knees and other joints. Look for lightweight and collapsible poles that are easy to pack and carry.
+                      - name: Sunscreen and sunglasses
+                        description: The Himalayan sun can be intense, so make sure to bring sunscreen and sunglasses to protect your skin and eyes.
+                      - name: First aid kit
+                        description: A well-stocked first aid kit can be a lifesaver in case of injuries or emergencies. Make sure to include items like bandages, antiseptic wipes, pain relievers, and insect repellent.
+                      - name: Headlamp or flashlight
+                        description: A headlamp or flashlight is essential for navigating in the dark or during power outages.
+                      - name: Maps and guidebooks
+                        description: Make sure to bring detailed maps and guidebooks to help you navigate the trail and plan your route.
+                Search for Everest base camp:
+                  value:
+                    description: "Here are some esseitial items you may need:"
+                    longDescription: string
+                    items:
+                      - name: Trekking pants
+                        description: ""
+                      - name: Sunglasses
+                        description: ""
+                      - name: Gaiters
+                        description: ""
+                      - name: Trekking poles
+                        description: ""
+                      - name: Sunscreen
+                        description: ""
+                      - name: Rucksack
+                        description: ""
+                      - name: First aid kit
+                        description: ""
+                      - name: Snowshoes
+                        description: ""
+        "4XX":
+          description: Response could not be generated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                error:
+                  code: "4XX"
+                  message: "Response could not be generated"
+                  data: "Long descriptive message"
+                  type: "Application error"
+                  path: "/v1/search"
+        "5XX":
+          description: Response could not be generated due to unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                error:
+                  code: "5XX"
+                  message: "Error processing request {specific error log from exception/error}"
+                  data: "Additional error message/logs"
+                  type: "System error"
+                  path: "/v1/search"
+components:
+  schemas:
+    SearchContext:
+      description: Schema for search context
+      type: object
+      properties:
+        context:
+          $ref: "#/components/schemas/Context"
+        message:
+          $ref: "#/components/schemas/Message"
+    SearchResponse:
+      description: Schema for search response
+      type: object
+      properties:
+        description:
+          description: Search response description
+          type: string
+        longDescription:
+          description: Search response long description
+          type: string
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Item"
+    Context:
+      description: Policy schema context object
+      type: object
+      required:
+        - action
+        - domain
+      properties:
+        action:
+          type: string
+        domain:
+          type: string
+        country:
+          type: string
+        city:
+          type: string
+    Message:
+      description: Message object
+      type: object
+      required:
+        - searchQuery
+      properties:
+        searchQuery:
+          type: string
+    Item:
+      description: Response item
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          required:
+            - type
+            - code
+            - message
+            - path
+          properties:
+            code:
+              description: Policy specific error code
+              type: string
+            message:
+              description: Human readable error message from databse/API
+              type: string
+            data:
+              description: Additional error data
+              type: object
+            type:
+              description: Error type
+              type: string
+            path:
+              description: Path to json schema generating the error. Used only during json schema validation errors
+              type: string
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+security:
+  - ApiKey: []
+servers:
+  - url: https://api.policy.becknprotocol.io
+    variables: {}
