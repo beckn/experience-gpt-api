@@ -1,0 +1,149 @@
+openapi: 3.0.0
+info:
+  version: 0.0.1
+  title: Experience GPT API
+  description: API to manage policy flow.
+paths:
+  /v1/search:
+    post:
+      tags:
+        - Experience AI
+      summary: Search for available options
+      requestBody:
+        description: Search context
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchContext'
+      responses:
+        '200':
+          description: Response generated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+        '4XX':
+          description: Response could not be generated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: "4XX"
+                  message: "Response could not be generated"
+                  data: "Long descriptive message"
+                  type: "Application error"
+                  path: "/v1/search"
+        '5XX':
+          description: Response could not be generated due to unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: "5XX"
+                  message: "Error processing request {specific error log from exception/error}"
+                  data: "Additional error message/logs"
+                  type: "System error"
+                  path: "/v1/search"
+components:
+  schemas:
+    SearchContext:
+      description: Schema for search context
+      type: object
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        message:
+          $ref: '#/components/schemas/Message'
+    SearchResponse:
+      description: Schema for search response
+      type: object
+      properties:
+        description:
+          description: Search response description
+          type: string
+        longDescription:
+          description: Search response long description
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
+    Context:
+      description: Policy schema context object
+      type: object
+      required:
+        - action
+        - domain
+        - country
+        - city
+        - version
+      properties:
+        action:
+          type: string
+        domain:
+          type: string
+        country:
+          type: string
+        city:
+          type: string
+        version:
+          type: string
+    Message:
+      description: Message object
+      type: object
+      required:
+        - searchQuery
+      properties:
+        searchQuery:
+          type: string
+    Item:
+      description: Response item
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          required:
+            - type
+            - code
+            - message
+            - path
+          properties:
+            code:
+              description: Policy specific error code
+              type: string
+            message:
+              description: Human readable error message from databse/API
+              type: string
+            data:
+              description: Additional error data
+              type: object
+            type:
+              description: Error type
+              type: string
+            path:
+              description: Path to json schema generating the error. Used only during json schema validation errors
+              type: string
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+security:
+  - ApiKey: []
+servers:
+  - url: https://api.policy.becknprotocol.io
+    variables: {}
