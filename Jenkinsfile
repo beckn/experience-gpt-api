@@ -7,10 +7,8 @@ pipeline {
           sshagent(credentials: ['"${credentials}"']) {
             sh '''
               ssh -t -t ${userName}@${hostIP} -o StrictHostKeyChecking=no << EOF
-              set +x
               ${listOfCommands}
               logout
-              set -x
               EOF
               '''
           }
