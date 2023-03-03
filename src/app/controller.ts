@@ -1,15 +1,17 @@
 import { Request, Response, NextFunction } from "express";
-import manali from '../responses/manali.json'
-import himalya from '../responses/himalya.json'
-import baseCamp from '../responses/evrestBaseCamp.json'
+import manaliData from '../responses/manali.json'
+import himalyaData from '../responses/himalya.json'
+import baseCampData from '../responses/evrestBaseCamp.json'
 import defaultData from "../responses/default_response.json";
+
+const obj: any = { "manali trip": manaliData, "himalaya trek": himalyaData, "everest base camp": baseCampData }
 
 
 
 
 export const getLocationDetails = (req: Request, res: Response, next: NextFunction) => {
     try {
-        let location = req.body.message.searchQuery
+        let location: any = req.body.message.searchQuery
         location = location.toLowerCase()
         if (!location) {
             return res.status(404).json({
@@ -22,14 +24,8 @@ export const getLocationDetails = (req: Request, res: Response, next: NextFuncti
                 }
             })
         }
-        if (location.includes('himalaya')) {
-            return res.status(200).json(himalya)
-        }
-        if (location.includes('manali')) {
-            return res.status(200).json(manali)
-        }
-        if (location.includes('camp')) {
-            return res.status(200).json(baseCamp)
+        if (location) {
+            return res.status(200).json(obj[location.toLowerCase()])
         }
         return res.status(200).json(defaultData)
     }
