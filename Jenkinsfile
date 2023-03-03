@@ -1,7 +1,7 @@
 pipeline {
   agent any
   stages {
-    stage('Executing Shell Script On Server') {
+    stage('Executing Shell Script') {
       steps {
         script {
           sshagent(credentials: ['"${credentials}"']) {
