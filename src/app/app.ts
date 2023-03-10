@@ -7,7 +7,7 @@ import express, {
 } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import { routes } from ".";
+import { routes, locatonRoutes } from ".";
 
 interface InitAppParams {
     app: Express;
@@ -37,16 +37,15 @@ const initApp = ({ app }: InitAppParams) => {
     });
 
     const port: string = process.env.PORT || "3000";
-    router.use("/ping", (req: Request, res: Response) => {
-        res.json({
+    router.use("/ping", async (req: Request, res: Response) => {
+        await res.json({
             status: 200,
             message: "Ping successfully",
             deployMessage: "Removed validation for description in project create"
         });
     });
-
+    router.use("/v2", locatonRoutes())
     router.use("/v1", routes());
-
 
     app.listen(port, () => {
         console.log(`Server is running on port ${port}`);

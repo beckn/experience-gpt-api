@@ -3,6 +3,7 @@ import manaliData from '../responses/manali.json'
 import himalyaData from '../responses/himalya.json'
 import baseCampData from '../responses/evrestBaseCamp.json'
 import defaultData from "../responses/default_response.json";
+import { Configuration, OpenAIApi } from 'openai'
 
 const obj: any = { "manali": manaliData, "himalaya": himalyaData, "everest": baseCampData }
 
@@ -45,3 +46,37 @@ export const getLocationDetails = (req: Request, res: Response, next: NextFuncti
         })
     }
 };
+
+export const GptOpenAi = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const body = req.body
+        let location = body?.order?.provider?.locations?.map((location: any) => {
+            return location?.city?.name
+        })
+        let final = location.toString()
+        const configuration = new Configuration({
+            apiKey: process.env.OPENAI_API_KEY,
+        });
+        const openai = new OpenAIApi(configuration);
+        const completion = await openai.createCompletion({
+            model: "text-davinci-003",
+            prompt: `Create an exhaustive JSON string array for a shopping list containing the types of items required for ${final}. The items must be purchasable at a store. Be specific in terms of the type of each item. Do not mention anything other than the type of the item.`,
+            max_tokens: 512,
+            temperature: 0
+        });
+        let data: any = completion?.data?.choices[0]?.text
+        data = JSON.parse(data)
+        return res.status(200).json(data)
+    } catch (e) {
+        return res.status(500).json({
+            "error": {
+                "code": "500",
+                "message": `${e}`,
+                "data": `${e}`,
+                "type": "System error",
+                "path": "/v1/search"
+            }
+        })
+    }
+
+}
