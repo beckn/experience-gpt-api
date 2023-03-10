@@ -1,0 +1,134 @@
+{
+	"info": {
+		"_postman_id": "055ea187-3f5e-428a-8c45-50242fd6be71",
+		"name": "experince-gpt",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1935896"
+	},
+	"item": [
+		{
+			"name": "Himalaya",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"context\": {\n    \"action\": \"search\",\n    \"domain\": \"mobility\"\n  },\n  \"message\": {\n    \"searchQuery\": \"Himalaya trek\"\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.experience-gpt.becknprotocol.io/v1/search",
+					"protocol": "https",
+					"host": [
+						"api",
+						"experience-gpt",
+						"becknprotocol",
+						"io"
+					],
+					"path": [
+						"v1",
+						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Manali",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"context\": {\n    \"action\": \"search\",\n    \"domain\": \"mobility\"\n  },\n  \"message\": {\n    \"searchQuery\": \"manali\"\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.experience-gpt.becknprotocol.io/v1/search",
+					"protocol": "https",
+					"host": [
+						"api",
+						"experience-gpt",
+						"becknprotocol",
+						"io"
+					],
+					"path": [
+						"v1",
+						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Everest",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"context\": {\n    \"action\": \"search\",\n    \"domain\": \"mobility\"\n  },\n  \"message\": {\n    \"searchQuery\": \"Himalaya\"\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.experience-gpt.becknprotocol.io/v1/search",
+					"protocol": "https",
+					"host": [
+						"api",
+						"experience-gpt",
+						"becknprotocol",
+						"io"
+					],
+					"path": [
+						"v1",
+						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Error",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"context\": {\n    \"action\": \"search\",\n    \"domain\": \"mobility\"\n  },\n  \"message\": {\n    \"searchQuery\": \"\"\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.experience-gpt.becknprotocol.io/v1/search",
+					"protocol": "https",
+					"host": [
+						"api",
+						"experience-gpt",
+						"becknprotocol",
+						"io"
+					],
+					"path": [
+						"v1",
+						"search"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
