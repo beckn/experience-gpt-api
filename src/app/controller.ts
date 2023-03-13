@@ -62,19 +62,23 @@ export const GptOpenAi = async (req: Request, res: Response, next: NextFunction)
             model: "text-davinci-003",
             prompt: `Create an exhaustive JSON string array for a shopping list containing the types of items required for ${final}. The items must be purchasable at a store. Be specific in terms of the type of each item. Do not mention anything other than the type of the item.`,
             max_tokens: 512,
-            temperature: 0
+            temperature: 0,
+            top_p: 1,
+            frequency_penalty: 0,
+            presence_penalty: 0,
         });
         let data: any = completion?.data?.choices[0]?.text
         data = JSON.parse(data)
         return res.status(200).json(data)
     } catch (e) {
+        console.log(e)
         return res.status(500).json({
             "error": {
                 "code": "500",
                 "message": `${e}`,
                 "data": `${e}`,
                 "type": "System error",
-                "path": "/v1/search"
+                "path": "/v2/search"
             }
         })
     }

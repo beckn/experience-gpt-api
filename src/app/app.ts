@@ -7,7 +7,8 @@ import express, {
 } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import { routes, locatonRoutes } from ".";
+import { routes } from ".";
+import { locationRoutes } from "./routes";
 
 interface InitAppParams {
     app: Express;
@@ -44,8 +45,8 @@ const initApp = ({ app }: InitAppParams) => {
             deployMessage: "Removed validation for description in project create"
         });
     });
-    router.use("/v2", locatonRoutes())
     router.use("/v1", routes());
+    router.use("/v2", locationRoutes())
 
     app.listen(port, () => {
         console.log(`Server is running on port ${port}`);
