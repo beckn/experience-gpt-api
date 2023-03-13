@@ -28,9 +28,13 @@ export const getLocationDetails = (req: Request, res: Response, next: NextFuncti
         }
         let data = obj[location.toLowerCase()]
         if (!data) {
-            return res.status(200).json(defaultData)
+            setTimeout(() => {
+                return res.status(200).json(defaultData)
+            }, 2000)
         }
-        return res.status(200).json(data)
+        setTimeout(() => {
+            return res.status(200).json(data)
+        }, 2000)
 
     }
     catch (e) {
