@@ -13,6 +13,7 @@ const obj: any = { "manali": manaliData, "himalaya": himalyaData, "everest": bas
 export const getLocationDetails = (req: Request, res: Response, next: NextFunction) => {
     try {
         console.log(`Recived request for ${req.body.message.searchQuery}`)
+        let time: any = process.env.DELAY_TIME
         let location: any = req.body.message.searchQuery
         location = location.toLowerCase()
         if (!location) {
@@ -30,11 +31,11 @@ export const getLocationDetails = (req: Request, res: Response, next: NextFuncti
         if (!data) {
             setTimeout(() => {
                 return res.status(200).json(defaultData)
-            }, 2000)
+            }, time)
         }
         setTimeout(() => {
             return res.status(200).json(data)
-        }, 2000)
+        }, time)
 
     }
     catch (e) {
