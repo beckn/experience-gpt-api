@@ -54,10 +54,8 @@ export const getLocationDetails = (req: Request, res: Response, next: NextFuncti
 
 export const GptOpenAi = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const body = req.body
-        let location = body?.order?.provider?.locations?.map((location: any) => {
-            return location?.city?.name
-        })
+        let location: any = req.body.message.searchQuery
+        location = location.toLowerCase()
         let final = location.toString()
         const configuration = new Configuration({
             apiKey: process.env.OPENAI_API_KEY,
