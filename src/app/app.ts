@@ -37,7 +37,7 @@ const initApp = ({ app }: InitAppParams) => {
         }
     });
 
-    const port: string = process.env.PORT || "3000";
+    const port: string = process.env.PORT || "3007";
     router.use("/ping", async (req: Request, res: Response) => {
         await res.json({
             status: 200,

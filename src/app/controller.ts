@@ -58,8 +58,9 @@ export const GptOpenAi = async (req: Request, res: Response, next: NextFunction)
         location = location.toLowerCase()
         let final = location.toString()
         const configuration = new Configuration({
-            apiKey: process.env.OPENAI_API_KEY,
+            apiKey: "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",
         });
+
         const openai = new OpenAIApi(configuration);
         const completion = await openai.createCompletion({
             model: "text-davinci-003",
@@ -70,11 +71,15 @@ export const GptOpenAi = async (req: Request, res: Response, next: NextFunction)
             frequency_penalty: 0,
             presence_penalty: 0,
         });
+        console.log(completion)
         let data: any = completion?.data?.choices[0]?.text
         data = JSON.parse(data)
-        return res.status(200).json(data)
+        const itemArray: any = []
+        data = data.map((item: any) => {
+            itemArray.push(item.item)
+        })
+        return res.status(200).json({ item: itemArray })
     } catch (e) {
-        console.log(e)
         return res.status(500).json({
             "error": {
                 "code": "500",
