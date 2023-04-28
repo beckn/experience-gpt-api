@@ -58,7 +58,7 @@ export const GptOpenAi = async (req: Request, res: Response, next: NextFunction)
         location = location.toLowerCase()
         let final = location.toString()
         const configuration = new Configuration({
-            apiKey: "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",
+            apiKey: process.env.OPENAI_API_KEY,
         });
 
         const openai = new OpenAIApi(configuration);
