@@ -54,24 +54,34 @@ export const getLocationDetails = (req: Request, res: Response, next: NextFuncti
 
 export const GptOpenAi = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        let location: any = req.body.message.searchQuery
-        location = location.toLowerCase()
-        let final = location.toString()
+        let location: string = req.body.message.searchQuery.toLowerCase().toString()
+        let type: string=req.body.message.prompt_type.toUpperCase().toString()
+        if((location===null)||(location===undefined)||(location===" "))
+        {
+            return res.status(400).json({Error:"Invalid Location "})
+        }
+
         const configuration = new Configuration({
             apiKey: process.env.OPENAI_API_KEY,
+          
         });
-
         const openai = new OpenAIApi(configuration);
+        const prompt_value=process.env[type]?.replace('{LOCATION}',location)
+        if((prompt_value===null)||(prompt_value===undefined))
+        {
+            return res.status(400).json({Error:"Invalid prompt type"})
+        }
         const completion = await openai.createCompletion({
             model: "text-davinci-003",
-            prompt: `Create an exhaustive JSON string array for a shopping list containing the types of items required for ${final}. The items must be purchasable at a store. Be specific in terms of the type of each item. Do not mention anything other than the type of the item.`,
+            prompt: prompt_value,
             max_tokens: 512,
             temperature: 0,
-            top_p: 1,
+            top_p: 1.0,
             frequency_penalty: 0,
             presence_penalty: 0,
+           
         });
-        console.log(completion)
+        
         let data: any = completion?.data?.choices[0]?.text
         data = JSON.parse(data)
         const itemArray: any = []
